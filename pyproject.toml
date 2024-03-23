@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vs"
+version = "0.0.1"
+requires-python = "~= 3.12"
+dependencies = [
+    "requests",
+    "iterfzf"
+]
+
+[project.scripts]
+vs = "vs.main:main"
+
+[tool.poe.tasks]
+run = "vs"
