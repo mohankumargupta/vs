@@ -6,6 +6,8 @@ import sys
 from tempfile import TemporaryFile, TemporaryDirectory
 from iterfzf import iterfzf
 import subprocess
+import sys
+from pathlib import Path
 
 
 VSCODE_URL = "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-archive"
@@ -58,7 +60,12 @@ def find_vscode_subdirectories(directory):
 
 
 def main():
-
+    arg_supplied = False
+    if len(sys.argv) == 2:
+        arg_supplied = True
+        if not Path(sys.argv[1]).exists():
+            print("supplied argument is not valid")
+            sys.exit(1)    
     #my_data = ["apple", "banana", "cherry", "date"]
     #my_data.reverse()
     #selected_item = iterfzf(my_data)
@@ -69,9 +76,12 @@ def main():
     options.reverse()
     #print(options)
     selected_item = iterfzf(options, __extra__=["--exact"])
-    print(f"Selected item: {selected_item}")
+    #print(f"Selected item: {selected_item}")
     vscode_binary = downloads.joinpath(f"vscode-{selected_item}").joinpath("Code.exe")
-    print(vscode_binary)
-    subprocess.Popen([vscode_binary])
+    #print(vscode_binary)
+    if arg_supplied:
+        subprocess.Popen([vscode_binary, sys.argv[1]])
+    else:
+        subprocess.Popen([vscode_binary])
     sys.exit(0)    
     
